@@ -1,0 +1,27 @@
+<svg width="100%" viewBox="0 0 680 360" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Background card -->
+  <rect x="120" y="30" width="440" height="300" rx="18" fill="#FDF6F0" style="fill:rgb(253, 246, 240);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- ===== ICON MARK ===== -->
+  <!-- Hanger hook -->
+  <path d="M340 90 Q340 77 350 73 Q362 69 365 79 Q367 85 360 88" fill="none" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round" style="fill:none;stroke:rgb(216, 90, 48);color:rgb(0, 0, 0);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Hanger shoulders -->
+  <path d="M340 100 L268 158 Q258 165 265 172 L415 172 Q422 165 412 158 Z" fill="none" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="fill:none;stroke:rgb(216, 90, 48);color:rgb(0, 0, 0);stroke-width:2.5px;stroke-linecap:round;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Crossbar -->
+  <rect x="263" y="169" width="154" height="5" rx="2.5" fill="#D85A30" style="fill:rgb(216, 90, 48);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Heart on hanger -->
+  <path d="M340 148&#10;           C340 148 327 137 320 144&#10;           C313 151 316 160 324 165&#10;           L340 179&#10;           L356 165&#10;           C364 160 367 151 360 144&#10;           C353 137 340 148 340 148 Z" fill="#F0997B" style="fill:rgb(240, 153, 123);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Thin divider -->
+  <line x1="180" y1="210" x2="500" y2="210" stroke="#F0997B" stroke-width="0.75" opacity="0.45" style="fill:rgb(0, 0, 0);stroke:rgb(240, 153, 123);color:rgb(0, 0, 0);stroke-width:0.75px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.45;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- ===== WORDMARK ===== -->
+  <text x="340" y="258" text-anchor="middle" fill="#3d1f10" font-family="Georgia, 'Times New Roman', serif" font-size="40px" font-style="italic" style="fill:rgb(61, 31, 16);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:Georgia, &quot;Times New Roman&quot;, serif;font-size:40px;font-weight:400;font-style:italic;text-anchor:middle;dominant-baseline:auto">The Teen Closet Project</text>
+
+  <!-- Card border -->
+  <rect x="120" y="30" width="440" height="300" rx="18" fill="none" stroke="#F0997B" stroke-width="1.2" opacity="0.35" style="fill:none;stroke:rgb(240, 153, 123);color:rgb(0, 0, 0);stroke-width:1.2px;stroke-linecap:butt;stroke-linejoin:miter;opacity:0.35;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+</svg>

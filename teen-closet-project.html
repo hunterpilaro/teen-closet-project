@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teen Closet Project | Clothing. Confidence. Community.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────
+       CSS VARIABLES & RESET
+    ───────────────────────────────── */
+    :root {
+      --bg:           #FDF8F2;   /* warm cream — matches logo card */
+      --white:        #FEFCF8;   /* slightly warm white */
+      --black:        #2C1308;   /* deep warm brown from logo wordmark */
+      --brown:        #3D1F10;   /* logo wordmark color exactly */
+      --grey:         #7D6057;   /* warm grey-brown */
+      --mid:          #AE9488;   /* warm mid tone */
+      --light:        #F5EDE4;   /* warm light peach-cream */
+      --border:       #E8D8CB;   /* warm border */
+      --accent:       #D85A30;   /* exact terracotta from logo hanger */
+      --accent-h:     #BE4A22;   /* darker hover */
+      --accent-light: #FDF0EA;   /* very light peach tint */
+      --peach:        #F0997B;   /* logo heart / secondary accent */
+      --dark:         #2C1308;   /* hero/footer dark — warm brown not cold black */
+      --max:          1200px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--black);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ─────────────────────────────────
+       SCROLLBAR
+    ───────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ─────────────────────────────────
+       LAYOUT HELPERS
+    ───────────────────────────────── */
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ─────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.75rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      background: none; border: none; cursor: pointer; padding: 0;
+      display: flex; align-items: center;
+    }
+    .nav-logo svg { height: 46px; width: auto; display: block; }
+    .nav-links {
+      display: flex; align-items: center; gap: 0.15rem;
+    }
+    .nav-links button {
+      background: none; border: none; cursor: pointer; font-family: inherit;
+      font-size: 0.82rem; font-weight: 600; color: var(--grey);
+      padding: 0.4rem 0.8rem; border-radius: 7px;
+      transition: color 0.15s, background 0.15s; white-space: nowrap;
+    }
+    .nav-links button:hover { color: var(--black); background: var(--light); }
+    .nav-links button.active { color: var(--black); }
+    /* Hide lower-priority nav items on mid screens */
+    @media (max-width: 1100px) and (min-width: 961px) {
+      .nav-hide-mid { display: none !important; }
+    }
+    .nav-donate {
+      background: var(--accent) !important; color: var(--white) !important;
+      padding: 0.45rem 1.1rem !important; border-radius: 8px !important;
+      margin-left: 0.25rem;
+    }
+    .nav-donate:hover { background: var(--accent-h) !important; }
+    .nav-burger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-burger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--black); border-radius: 2px; transition: 0.3s;
+    }
+    .mobile-nav {
+      display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 199;
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1.75rem 1rem;
+      flex-direction: column;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav button {
+      background: none; border: none; cursor: pointer; font-family: inherit;
+      font-size: 1rem; font-weight: 600; color: var(--grey);
+      padding: 0.75rem 0; text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-nav button:last-child { border-bottom: none; color: var(--accent); }
+
+    /* ─────────────────────────────────
+       PAGE SYSTEM
+    ───────────────────────────────── */
+    .page { display: none; padding-top: 64px; animation: pageFade 0.3s ease; }
+    .page.active { display: block; }
+    @keyframes pageFade { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ─────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────── */
+    .eyebrow {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem;
+      display: block;
+    }
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      font-weight: 800; letter-spacing: -1px; line-height: 1.0;
+    }
+    h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800; letter-spacing: -0.5px; line-height: 1.1;
+    }
+    h3 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.2px; }
+
+    /* ─────────────────────────────────
+       BUTTONS
+    ───────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.8rem 1.75rem; border-radius: 9px; cursor: pointer;
+      font-family: inherit; font-size: 0.88rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      border: 2px solid transparent; transition: all 0.2s;
+    }
+    .btn-primary { background: var(--brown); color: #FDF6F0; border-color: var(--brown); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--brown); border-color: var(--brown); }
+    .btn-outline:hover { background: var(--brown); color: #FDF6F0; }
+    .btn-accent { background: var(--accent); color: var(--white); border-color: var(--accent); }
+    .btn-accent:hover { background: var(--accent-h); border-color: var(--accent-h); }
+    .btn-ghost-white {
+      background: transparent; color: #fff;
+      border-color: rgba(255,255,255,0.35);
+    }
+    .btn-ghost-white:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+    .btn-white { background: #fff; color: var(--black); border-color: #fff; }
+    .btn-white:hover { background: var(--light); }
+
+    /* ─────────────────────────────────
+       SHARED SECTION STYLES
+    ───────────────────────────────── */
+    .section-pad { padding: 7rem 1.5rem; }
+    .section-sm { padding: 5rem 1.5rem; }
+
+    /* Dark hero variant used across pages */
+    .page-hero {
+      padding: 5.5rem 1.75rem 4.5rem;
+      background: var(--brown);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(216,90,48,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .page-hero-inner { max-width: var(--max); margin: 0 auto; position: relative; z-index: 1; }
+    .page-hero h1 { color: #FDF6F0; margin-bottom: 1.25rem; }
+    .page-hero p { color: rgba(253,246,240,0.6); max-width: 520px; font-size: 1.05rem; }
+
+    /* CTA banner */
+    .cta-banner { background: var(--accent); padding: 6rem 1.5rem; text-align: center; }
+    .cta-banner h2 { color: #fff; margin-bottom: 0.85rem; }
+    .cta-banner p { color: rgba(255,255,255,0.8); max-width: 500px; margin: 0 auto 2.5rem; font-size: 1rem; }
+    .cta-btns { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Mini footer for inner pages */
+    .mini-footer {
+      background: var(--brown); padding: 1.75rem 1.75rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+    }
+    .mini-footer p { font-size: 0.78rem; color: rgba(253,246,240,0.25); }
+    .mini-footer a { color: var(--peach); }
+
+    /* ─────────────────────────────────
+       FORMS (shared)
+    ───────────────────────────────── */
+    .form-wrap {
+      max-width: 720px; margin: 0 auto;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2.75rem;
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.38rem; margin-bottom: 0.25rem; }
+    .form-group.full { grid-column: span 2; }
+    .form-group label {
+      font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--grey);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 0.72rem 1rem;
+      color: var(--black); font-family: inherit; font-size: 0.92rem;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(196,87,42,0.12);
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group select { appearance: none; cursor: pointer; }
+    .btn-submit {
+      width: 100%; justify-content: center; padding: 0.95rem;
+    }
+
+    /* Checkboxes */
+    .check-group {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem;
+    }
+    .check-group label {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.87rem; color: var(--grey);
+      text-transform: none; letter-spacing: 0; font-weight: 400; cursor: pointer;
+    }
+
+    /* ─────────────────────────────────
+       HOME PAGE
+    ───────────────────────────────── */
+    .hero {
+      min-height: calc(100vh - 64px);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 5rem 1.75rem 4.5rem;
+      background: var(--dark);
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(9rem, 22vw, 20rem); font-weight: 900; font-style: italic;
+      color: rgba(240,153,123,0.06); letter-spacing: -4px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; width: 100%; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(216,90,48,0.18); border: 1px solid rgba(240,153,123,0.4);
+      color: #F0997B; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.75rem;
+    }
+    .hero-tag-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: blink 1.6s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 { color: #FDF6F0; margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: italic; color: var(--peach); }
+    .hero-sub { color: rgba(253,246,240,0.6); max-width: 480px; font-size: 1.05rem; margin-bottom: 2.75rem; }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .hero-scroll {
+      position: absolute; bottom: 2.25rem; right: 2.25rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.2); font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .scroll-bar { width: 1px; height: 36px; background: linear-gradient(to bottom, rgba(255,255,255,0.25), transparent); }
+
+    /* Marquee strip */
+    .strip { background: var(--brown); padding: 0.9rem 0; overflow: hidden; border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent); }
+    .strip-inner {
+      display: flex; gap: 2.5rem; white-space: nowrap;
+      animation: marquee 22s linear infinite;
+    }
+    .strip-inner span {
+      font-size: 0.72rem; font-weight: 700; color: #FDF6F0;
+      text-transform: uppercase; letter-spacing: 0.12em; flex-shrink: 0;
+    }
+    .strip-inner .sep { color: var(--peach); opacity: 0.7; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* Mission section */
+    .mission-wrap {
+      max-width: 720px; margin: 0 auto;
+    }
+    .mission-text h2 { margin-bottom: 1.4rem; }
+    .mission-text p { color: var(--grey); font-size: 1rem; margin-bottom: 1.1rem; line-height: 1.75; }
+    .mission-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
+    .mission-visual {
+      background: var(--brown); border-radius: 18px;
+      aspect-ratio: 5/4; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(240,153,123,0.2);
+    }
+    .mission-quote {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.5rem, 2.8vw, 2.4rem); font-weight: 700; font-style: italic;
+      color: #FDF6F0; text-align: center; padding: 2.5rem 2rem;
+      letter-spacing: 0; line-height: 1.25;
+    }
+    .mission-quote em { color: var(--peach); font-style: normal; }
+    .mission-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: var(--accent); }
+
+    /* Stats */
+    .stats-section { background: var(--brown); padding: 6rem 1.5rem; }
+    .stats-head { text-align: center; margin-bottom: 4rem; }
+    .stats-head h2 { color: #FDF6F0; margin-bottom: 0.6rem; }
+    .stats-head p { color: rgba(253,246,240,0.5); }
+    .stats-grid {
+      max-width: var(--max); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr);
+    }
+    .stat {
+      padding: 2.5rem 2rem; text-align: center;
+      border-right: 1px solid rgba(240,153,123,0.15);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-n {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800;
+      color: #FDF6F0; letter-spacing: -1px; line-height: 1; margin-bottom: 0.5rem;
+    }
+    .stat-n em { color: var(--peach); font-style: normal; }
+    .stat-l { font-size: 0.75rem; color: rgba(240,153,123,0.6); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+    /* Programs preview grid */
+    .prog-preview-head {
+      max-width: var(--max); margin: 0 auto 3.5rem;
+      display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .prog-grid {
+      max-width: var(--max); margin: 0 auto;
+      display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem;
+    }
+    .prog-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem;
+      transition: transform 0.22s, box-shadow 0.22s; cursor: pointer;
+    }
+    .prog-card:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(0,0,0,0.07); }
+    .prog-icon {
+      width: 48px; height: 48px; border-radius: 11px;
+      background: var(--accent-light); display: flex; align-items: center;
+      justify-content: center; font-size: 1.4rem; margin-bottom: 1.2rem;
+    }
+    .prog-card h3 { margin-bottom: 0.4rem; }
+    .prog-card p { color: var(--grey); font-size: 0.9rem; line-height: 1.65; }
+
+    /* ─────────────────────────────────
+       ABOUT PAGE
+    ───────────────────────────────── */
+    .about-story {
+      max-width: 780px; margin: 0 auto;
+      padding: 6rem 1.5rem;
+    }
+    .about-story h2 { margin-bottom: 2rem; }
+    .about-story p { color: var(--grey); font-size: 1.02rem; margin-bottom: 1.4rem; line-height: 1.8; }
+    .pull-quote {
+      border-left: 3px solid var(--accent);
+      background: var(--accent-light);
+      border-radius: 0 12px 12px 0;
+      padding: 1.1rem 1.5rem; margin: 2.5rem 0;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic; font-size: 1.12rem; font-weight: 700;
+      color: var(--brown) !important; margin: 0 !important;
+    }
+
+    /* Values */
+    .values-bg { background: var(--light); }
+    .values-inner { max-width: var(--max); margin: 0 auto; }
+    .values-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem;
+    }
+    .val-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem;
+    }
+    .val-num {
+      font-size: 2.8rem; font-weight: 900; letter-spacing: -2px; line-height: 1;
+      margin-bottom: 0.75rem;
+      color: var(--light); -webkit-text-stroke: 2px var(--border);
+    }
+    .val-card h3 { margin-bottom: 0.45rem; }
+    .val-card p { color: var(--grey); font-size: 0.9rem; line-height: 1.65; }
+
+    /* Team */
+    .team-inner { max-width: var(--max); margin: 0 auto; }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem;
+    }
+    .team-card { text-align: center; }
+    .team-avatar {
+      width: 100%; aspect-ratio: 1; border-radius: 14px;
+      background: var(--light); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; margin-bottom: 0.85rem;
+    }
+    .team-card h4 { font-size: 1rem; font-weight: 700; }
+    .team-card span {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.09em; color: var(--mid);
+    }
+
+    /* ─────────────────────────────────
+       PROGRAMS PAGE
+    ───────────────────────────────── */
+    .prog-rows { max-width: var(--max); margin: 0 auto; padding: 0 1.5rem; }
+    .prog-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+      padding: 5rem 0; border-bottom: 1px solid var(--border);
+    }
+    .prog-row:last-child { border-bottom: none; }
+    .prog-row.rev { direction: rtl; }
+    .prog-row.rev > * { direction: ltr; }
+    .prog-visual {
+      background: var(--light); border-radius: 18px;
+      aspect-ratio: 5/4; display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; border: 1px solid var(--border);
+    }
+    .prog-text .eyebrow { margin-bottom: 0.5rem; }
+    .prog-text h2 { font-size: 2rem; margin-bottom: 0.85rem; }
+    .prog-text p { color: var(--grey); font-size: 0.96rem; margin-bottom: 1rem; line-height: 1.75; }
+    .prog-includes { margin-top: 1.5rem; }
+    .prog-includes h4 {
+      font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--grey); margin-bottom: 0.75rem;
+    }
+    .prog-includes ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .prog-includes li {
+      font-size: 0.88rem; color: var(--grey);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .prog-includes li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────
+       GET INVOLVED
+    ───────────────────────────────── */
+    .inv-cards {
+      max-width: var(--max); margin: 3.5rem auto 0;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem;
+    }
+    .inv-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .inv-card-top {
+      background: var(--brown); padding: 2.25rem 1.75rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .inv-card-n {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 3.5rem; font-weight: 800; font-style: italic;
+      color: rgba(240,153,123,0.15); letter-spacing: -1px;
+    }
+    .inv-card-icon { font-size: 2rem; }
+    .inv-card-body { padding: 1.6rem 1.75rem; }
+    .inv-card-body h3 { margin-bottom: 0.45rem; }
+    .inv-card-body p { color: var(--grey); font-size: 0.88rem; line-height: 1.65; margin-bottom: 1.25rem; }
+
+    /* Donation info grid */
+    .don-info-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem;
+      max-width: var(--max); margin-left: auto; margin-right: auto;
+    }
+    .don-info-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem;
+    }
+    .don-info-card h3 { margin-bottom: 1.1rem; }
+    .accept-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .accept-list li { font-size: 0.88rem; color: var(--grey); display: flex; align-items: center; gap: 0.55rem; }
+    .accept-list li .yes { color: #4ade80; }
+    .accept-list li .no  { color: var(--accent); }
+    .don-method { margin-bottom: 1.25rem; }
+    .don-method-label {
+      font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.25rem;
+    }
+    .don-method p { font-size: 0.88rem; color: var(--grey); }
+
+    /* Partnerships */
+    .partner-grid {
+      display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; margin-top: 3rem;
+      max-width: var(--max); margin-left: auto; margin-right: auto;
+    }
+    .partner-card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 2rem;
+      transition: border-color 0.2s;
+    }
+    .partner-card:hover { border-color: var(--accent); }
+    .partner-card h3 { margin-bottom: 0.45rem; }
+    .partner-card p { color: var(--grey); font-size: 0.9rem; margin-bottom: 1.25rem; line-height: 1.65; }
+
+    /* ─────────────────────────────────
+       REQUEST SUPPORT PAGE
+    ───────────────────────────────── */
+    .support-hero-center { text-align: center; }
+    .support-hero-center h1 { color: #fff; margin-bottom: 1rem; }
+    .support-hero-center p { color: rgba(255,255,255,0.55); max-width: 480px; margin: 0 auto; font-size: 1rem; }
+    .privacy-box {
+      max-width: 720px; margin: 0 auto 2rem;
+      background: var(--accent-light); border: 1px solid rgba(196,87,42,0.2);
+      border-radius: 12px; padding: 1rem 1.3rem;
+      font-size: 0.83rem; color: var(--grey);
+    }
+    .privacy-box strong { color: var(--black); }
+    .privacy-box-success {
+      max-width: 720px; margin: 1.5rem auto 0;
+      background: #F0FDF4; border: 1px solid rgba(74,222,128,0.25);
+      border-radius: 12px; padding: 1rem 1.3rem;
+      font-size: 0.83rem; color: #4B7A5A;
+    }
+    .privacy-box-success strong { color: #1A4A2E; }
+
+    /* ─────────────────────────────────
+       DONATE PAGE
+    ───────────────────────────────── */
+    .donate-layout {
+      max-width: 1020px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.15fr; gap: 4rem; align-items: start;
+    }
+    .donate-info h2 { margin-bottom: 1.4rem; }
+    .impact-list { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; margin-top: 1.5rem; }
+    .impact-row {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1rem 1.1rem; background: var(--white);
+      border-radius: 12px; border: 1px solid var(--border);
+    }
+    .impact-amt {
+      background: var(--brown); color: #FDF6F0;
+      font-size: 0.8rem; font-weight: 800; padding: 0.28rem 0.6rem;
+      border-radius: 6px; white-space: nowrap; flex-shrink: 0;
+    }
+    .impact-row p { font-size: 0.88rem; color: var(--grey); line-height: 1.5; }
+
+    /* Donate form card */
+    .donate-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2.25rem;
+      position: sticky; top: 82px;
+    }
+    .donate-card h3 { margin-bottom: 1.5rem; }
+    .amt-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 0.65rem; margin-bottom: 1.1rem;
+    }
+    .amt-btn {
+      padding: 0.7rem; border: 1.5px solid var(--border);
+      border-radius: 10px; background: var(--bg); cursor: pointer;
+      font-family: inherit; font-size: 0.93rem; font-weight: 700;
+      transition: all 0.15s; text-align: center;
+    }
+    .amt-btn:hover, .amt-btn.sel { background: var(--brown); color: #FDF6F0; border-color: var(--brown); }
+    .or-divider {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.1rem; color: var(--mid); font-size: 0.78rem; font-weight: 700;
+    }
+    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .donate-note { font-size: 0.74rem; color: var(--mid); text-align: center; margin-top: 0.85rem; }
+
+    /* Allocation bars */
+    .alloc-bg { background: var(--light); }
+    .alloc-inner { max-width: 760px; margin: 0 auto; }
+    .alloc-inner > p { color: var(--grey); margin-top: 0.5rem; margin-bottom: 3rem; }
+    .alloc-bars { display: flex; flex-direction: column; gap: 1.75rem; }
+    .alloc-row {}
+    .alloc-labels {
+      display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.45rem;
+    }
+    .alloc-labels span:first-child { font-size: 0.9rem; font-weight: 700; }
+    .alloc-labels span:last-child { font-size: 0.8rem; color: var(--grey); font-weight: 600; }
+    .alloc-track { height: 9px; background: var(--border); border-radius: 100px; overflow: hidden; }
+    .alloc-fill { height: 100%; border-radius: 100px; background: var(--brown); }
+    .alloc-fill.c { background: var(--accent); }
+
+    /* ─────────────────────────────────
+       FULL FOOTER
+    ───────────────────────────────── */
+    .footer-full { background: var(--brown); padding: 5rem 1.75rem 2rem; }
+    .footer-inner { max-width: var(--max); margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 2.2fr 1fr 1fr 1fr; gap: 4rem;
+      padding-bottom: 3rem; border-bottom: 1px solid rgba(240,153,123,0.15);
+    }
+    .f-logo-mark { font-size: 2.2rem; font-weight: 900; color: #fff; letter-spacing: -1.5px; line-height: 1; margin-bottom: 0.2rem; }
+    .f-logo-sub { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 1.1rem; }
+    .f-mission { color: rgba(253,246,240,0.45); font-size: 0.87rem; line-height: 1.7; max-width: 255px; }
+    .f-socials { display: flex; gap: 0.55rem; margin-top: 1.5rem; }
+    .f-social {
+      width: 36px; height: 36px; border-radius: 8px;
+      border: 1px solid rgba(240,153,123,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(240,153,123,0.5); cursor: pointer;
+      transition: all 0.2s;
+    }
+    .f-social:hover { border-color: var(--peach); color: var(--peach); transform: translateY(-2px); }
+    .f-col h5 {
+      font-size: 0.67rem; font-weight: 800; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(240,153,123,0.4); margin-bottom: 1.2rem;
+    }
+    .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .f-col li {
+      font-size: 0.86rem; color: rgba(253,246,240,0.4);
+      cursor: pointer; transition: color 0.15s;
+    }
+    .f-col li:hover { color: #FDF6F0; }
+    .f-bottom {
+      padding-top: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+    }
+    .f-bottom p { font-size: 0.76rem; color: rgba(253,246,240,0.2); }
+    .f-bottom a { color: var(--peach); }
+
+    /* ─────────────────────────────────
+       NEWSLETTER STRIP
+    ───────────────────────────────── */
+    .newsletter-strip {
+      background: var(--accent-light);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 1.5rem;
+    }
+    .newsletter-inner {
+      max-width: 600px; margin: 0 auto; text-align: center;
+    }
+    .newsletter-inner h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;
+    }
+    .newsletter-inner p { color: var(--grey); font-size: 0.95rem; margin-bottom: 1.5rem; }
+    .newsletter-form {
+      display: flex; gap: 0.6rem; max-width: 420px; margin: 0 auto;
+    }
+    .newsletter-form input {
+      flex: 1; background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 0.72rem 1rem; font-family: inherit;
+      font-size: 0.9rem; color: var(--black); outline: none;
+      transition: border-color 0.2s;
+    }
+    .newsletter-form input:focus { border-color: var(--accent); }
+    .newsletter-note { font-size: 0.74rem; color: var(--mid); margin-top: 0.75rem; }
+
+    /* ─────────────────────────────────
+       EVENTS STRIP
+    ───────────────────────────────── */
+    .events-strip { padding: 5rem 1.5rem; background: var(--bg); }
+    .events-inner { max-width: var(--max); margin: 0 auto; }
+    .events-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+    }
+    .events-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem;
+    }
+    .event-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .event-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.06); }
+    .event-card-top {
+      background: var(--accent); padding: 1.25rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .event-date-block { text-align: center; color: #fff; }
+    .event-month { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; }
+    .event-day { font-family: 'Playfair Display', Georgia, serif; font-size: 2.2rem; font-weight: 800; line-height: 1; }
+    .event-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.25); }
+    .event-type { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.75); }
+    .event-title-top { font-size: 0.95rem; font-weight: 700; color: #fff; margin-top: 0.15rem; }
+    .event-card-body { padding: 1.25rem 1.5rem; }
+    .event-card-body p { font-size: 0.87rem; color: var(--grey); margin-bottom: 0.6rem; }
+    .event-meta { font-size: 0.78rem; color: var(--mid); display: flex; gap: 1rem; flex-wrap: wrap; }
+    .event-meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+    /* ─────────────────────────────────
+       FAQ PAGE
+    ───────────────────────────────── */
+    .faq-inner { max-width: 760px; margin: 0 auto; padding: 5.5rem 1.5rem; }
+    .faq-group { margin-bottom: 3.5rem; }
+    .faq-group-label {
+      font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--accent); margin-bottom: 1.25rem;
+      padding-bottom: 0.6rem; border-bottom: 1px solid var(--border);
+    }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 0.97rem; font-weight: 700;
+      color: var(--black); text-align: left;
+      padding: 1.1rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      transition: color 0.15s;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-icon {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; color: var(--grey); transition: all 0.2s;
+    }
+    .faq-item.open .faq-icon { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(45deg); }
+    .faq-a {
+      font-size: 0.93rem; color: var(--grey); line-height: 1.75;
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.2s;
+      padding: 0;
+    }
+    .faq-item.open .faq-a { max-height: 400px; padding-bottom: 1.1rem; }
+
+    /* ─────────────────────────────────
+       RESOURCES PAGE
+    ───────────────────────────────── */
+    .resources-inner { max-width: var(--max); margin: 0 auto; padding: 5.5rem 1.5rem; }
+    .resources-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 3rem;
+    }
+    .resource-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .resource-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .resource-card-tag {
+      font-size: 0.67rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .resource-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .resource-card p { font-size: 0.85rem; color: var(--grey); line-height: 1.6; margin-bottom: 1rem; }
+    .resource-link {
+      font-size: 0.8rem; font-weight: 700; color: var(--accent);
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      transition: gap 0.15s;
+    }
+    .resource-link:hover { gap: 0.5rem; }
+
+    /* ─────────────────────────────────
+       CONTACT PAGE
+    ───────────────────────────────── */
+    .contact-layout {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start;
+      padding: 5.5rem 1.5rem;
+    }
+    .contact-info h2 { margin-bottom: 1rem; }
+    .contact-info > p { color: var(--grey); font-size: 0.97rem; margin-bottom: 2rem; line-height: 1.75; }
+    .contact-method { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
+    .contact-method-icon {
+      width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+      background: var(--accent-light); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+    }
+    .contact-method-text h4 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .contact-method-text p { font-size: 0.85rem; color: var(--grey); }
+    .contact-method-text a { color: var(--accent); font-weight: 600; }
+    .contact-socials { display: flex; gap: 0.6rem; margin-top: 2rem; }
+    .contact-social {
+      width: 38px; height: 38px; border-radius: 9px;
+      border: 1.5px solid var(--border); display: flex; align-items: center;
+      justify-content: center; color: var(--grey); cursor: pointer;
+      transition: all 0.2s;
+    }
+    .contact-social:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    @media (max-width: 760px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .events-grid { grid-template-columns: 1fr; }
+      .resources-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+    }
+
+    /* ─────────────────────────────────
+       TOAST NOTIFICATION
+    ───────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+      background: var(--brown); color: #FDF6F0;
+      padding: 0.9rem 1.4rem; border-radius: 12px; font-size: 0.88rem; font-weight: 500;
+      display: flex; align-items: center; gap: 0.7rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      transform: translateY(80px); opacity: 0;
+      transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; flex-shrink: 0; }
+
+    /* ─────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────── */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .mission-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .prog-grid { grid-template-columns: 1fr; }
+      .prog-row { grid-template-columns: 1fr; gap: 2.5rem; }
+      .prog-row.rev { direction: ltr; }
+      .values-grid, .team-grid, .inv-cards { grid-template-columns: 1fr; }
+      .don-info-grid, .partner-grid { grid-template-columns: 1fr; }
+      .donate-layout { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    }
+    @media (max-width: 580px) {
+      h1 { letter-spacing: -1.5px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-group.full { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════ -->
+<!--  NAVIGATION                     -->
+<!-- ════════════════════════════════ -->
+<nav>
+  <button class="nav-logo" onclick="go('home')" aria-label="Teen Closet Project Home">
+    <svg height="46" viewBox="120 30 440 300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="120" y="30" width="440" height="300" rx="18" fill="#FDF6F0"/>
+      <path d="M340 90 Q340 77 350 73 Q362 69 365 79 Q367 85 360 88" fill="none" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M340 100 L268 158 Q258 165 265 172 L415 172 Q422 165 412 158 Z" fill="none" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="263" y="169" width="154" height="5" rx="2.5" fill="#D85A30"/>
+      <path d="M340 148 C340 148 327 137 320 144 C313 151 316 160 324 165 L340 179 L356 165 C364 160 367 151 360 144 C353 137 340 148 340 148 Z" fill="#F0997B"/>
+      <line x1="180" y1="210" x2="500" y2="210" stroke="#F0997B" stroke-width="0.75" opacity="0.45"/>
+      <text x="340" y="258" text-anchor="middle" fill="#3d1f10" font-family="Georgia,'Times New Roman',serif" font-size="40px" font-style="italic">The Teen Closet Project</text>
+      <rect x="120" y="30" width="440" height="300" rx="18" fill="none" stroke="#F0997B" stroke-width="1.2" opacity="0.35"/>
+    </svg>
+  </button>
+  <div class="nav-links">
+    <button onclick="go('home')"      id="nb-home"      class="active">Home</button>
+    <button onclick="go('about')"     id="nb-about">About</button>
+    <button onclick="go('programs')"  id="nb-programs">Programs</button>
+    <button onclick="go('involved')"  id="nb-involved">Get Involved</button>
+    <button onclick="go('support')"   id="nb-support"  class="nav-hide-mid">Request Support</button>
+    <button onclick="go('resources')" id="nb-resources" class="nav-hide-mid">Resources</button>
+    <button onclick="go('faq')"       id="nb-faq"       class="nav-hide-mid">FAQ</button>
+    <button onclick="go('contact')"   id="nb-contact">Contact</button>
+    <button onclick="go('donate')"    id="nb-donate" class="nav-donate">Donate</button>
+  </div>
+  <button class="nav-burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mob-nav">
+  <button onclick="go('home');      closeMenu()">Home</button>
+  <button onclick="go('about');     closeMenu()">About</button>
+  <button onclick="go('programs');  closeMenu()">Programs</button>
+  <button onclick="go('involved');  closeMenu()">Get Involved</button>
+  <button onclick="go('support');   closeMenu()">Request Support</button>
+  <button onclick="go('resources'); closeMenu()">Resources</button>
+  <button onclick="go('faq');       closeMenu()">FAQ</button>
+  <button onclick="go('contact');   closeMenu()">Contact</button>
+  <button onclick="go('donate');    closeMenu()">Donate</button>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  HOME PAGE                      -->
+<!-- ════════════════════════════════ -->
+<div id="pg-home" class="page active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg">TCP</div>
+    <div class="hero-content">
+      <div class="hero-tag"><div class="hero-tag-dot"></div> New York City &mdash; Founded by Hunter Pilaro &amp; Sol Molloy-Chimilio</div>
+      <h1>Clothing.<br><em>Confidence.</em><br>Community.</h1>
+      <p class="hero-sub">Providing seasonal clothing and safe social spaces to migrant and marginalized teens across New York City.</p>
+      <div class="hero-btns">
+        <button class="btn btn-accent"      onclick="go('donate')">Donate Now</button>
+        <button class="btn btn-ghost-white" onclick="go('support')">Request Support</button>
+        <button class="btn btn-ghost-white" onclick="go('involved')">Volunteer</button>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-bar"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="strip">
+    <div class="strip-inner">
+      <span>Free Clothing Bundles</span><span class="sep">&#9679;</span>
+      <span>Seasonal Drives</span><span class="sep">&#9679;</span>
+      <span>Community Pop-Ups</span><span class="sep">&#9679;</span>
+      <span>Immigrant Teen Services</span><span class="sep">&#9679;</span>
+      <span>NYC Youth Support</span><span class="sep">&#9679;</span>
+      <span>Style &amp; Confidence</span><span class="sep">&#9679;</span>
+      <span>Mentorship &amp; Resources</span><span class="sep">&#9679;</span>
+      <!-- duplicate for seamless loop -->
+      <span>Free Clothing Bundles</span><span class="sep">&#9679;</span>
+      <span>Seasonal Drives</span><span class="sep">&#9679;</span>
+      <span>Community Pop-Ups</span><span class="sep">&#9679;</span>
+      <span>Immigrant Teen Services</span><span class="sep">&#9679;</span>
+      <span>NYC Youth Support</span><span class="sep">&#9679;</span>
+      <span>Style &amp; Confidence</span><span class="sep">&#9679;</span>
+      <span>Mentorship &amp; Resources</span><span class="sep">&#9679;</span>
+    </div>
+  </div>
+
+  <!-- Mission -->
+  <section class="section-pad">
+    <div class="mission-wrap container">
+      <div class="mission-text">
+        <span class="eyebrow">Our Mission</span>
+        <h2>Filling the gap no one else is filling.</h2>
+        <p>Across New York City, many organizations do vital work sheltering immigrants and addressing emergency needs. But one gap remains largely unaddressed: access to basic seasonal clothing for teens navigating life in shelters and new communities.</p>
+        <p>The Teen Closet Project fills that gap &mdash; providing warm, clean seasonal clothing to migrant and marginalized teens in NYC, while creating safe social spaces where young people can connect with peers and access community resources.</p>
+        <div class="mission-btns">
+          <button class="btn btn-primary" onclick="go('about')">Our Story</button>
+          <button class="btn btn-outline" onclick="go('programs')">Our Programs</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Programs preview -->
+  <section class="section-pad" style="background:var(--bg)">
+    <div class="prog-preview-head container">
+      <div>
+        <span class="eyebrow">What We Do</span>
+        <h2>Programs built<br>for real teens.</h2>
+      </div>
+      <button class="btn btn-outline" onclick="go('programs')">View All Programs &rarr;</button>
+    </div>
+    <div class="prog-grid container">
+      <div class="prog-card" onclick="go('programs')">
+        <div class="prog-icon">&#128218;</div>
+        <h3>Clothing Bundles</h3>
+        <p>Curated, size-appropriate bundles of school-ready and everyday clothing delivered free to teens across all five boroughs.</p>
+      </div>
+      <div class="prog-card" onclick="go('programs')">
+        <div class="prog-icon">&#127808;</div>
+        <h3>Seasonal Drives</h3>
+        <p>Back-to-school, winter, and summer drives that source high-quality donated items and pair them with teens who need them most.</p>
+      </div>
+      <div class="prog-card" onclick="go('programs')">
+        <div class="prog-icon">&#127963;</div>
+        <h3>Community Pop-Ups</h3>
+        <p>Free in-person events across NYC where teens choose their own items, connect with peers, and access resources in a supportive space.</p>
+      </div>
+      <div class="prog-card" onclick="go('programs')">
+        <div class="prog-icon">&#128161;</div>
+        <h3>Mentorship &amp; Resources</h3>
+        <p>Workshops, mentorship connections, and multilingual resource guides helping immigrant and underserved teens build confidence and opportunity.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events -->
+  <section class="events-strip">
+    <div class="events-inner">
+      <div class="events-head">
+        <div>
+          <span class="eyebrow">Upcoming Events</span>
+          <h2>Come find us in your neighborhood.</h2>
+        </div>
+        <button class="btn btn-outline" onclick="go('contact')">Get Event Updates</button>
+      </div>
+      <div class="events-grid">
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-date-block">
+              <div class="event-month">Apr</div>
+              <div class="event-day">12</div>
+            </div>
+            <div class="event-divider"></div>
+            <div>
+              <div class="event-type">Community Pop-Up</div>
+              <div class="event-title-top">South Bronx Pop-Up</div>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <p>Free clothing selection, resource tables, food, and community connection. No registration required &mdash; just show up.</p>
+            <div class="event-meta">
+              <span>&#128205; Bronx, NY</span>
+              <span>&#128336; 11am &ndash; 3pm</span>
+            </div>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-date-block">
+              <div class="event-month">Apr</div>
+              <div class="event-day">26</div>
+            </div>
+            <div class="event-divider"></div>
+            <div>
+              <div class="event-type">Clothing Drive</div>
+              <div class="event-title-top">Spring Drive Kickoff</div>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <p>Drop off clean, gently used teen clothing at our collection partner locations across Brooklyn and Queens.</p>
+            <div class="event-meta">
+              <span>&#128205; Brooklyn &amp; Queens</span>
+              <span>&#128336; All day</span>
+            </div>
+          </div>
+        </div>
+        <div class="event-card">
+          <div class="event-card-top">
+            <div class="event-date-block">
+              <div class="event-month">May</div>
+              <div class="event-day">10</div>
+            </div>
+            <div class="event-divider"></div>
+            <div>
+              <div class="event-type">Community Pop-Up</div>
+              <div class="event-title-top">Jackson Heights Pop-Up</div>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <p>Serving immigrant teens and families in Queens. Multilingual volunteers on site. Free clothing, resources, and more.</p>
+            <div class="event-meta">
+              <span>&#128205; Jackson Heights, Queens</span>
+              <span>&#128336; 12pm &ndash; 4pm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter-strip">
+    <div class="newsletter-inner">
+      <span class="eyebrow">Stay Connected</span>
+      <h3>Get updates on events, drives &amp; news.</h3>
+      <p>We&rsquo;ll send occasional updates about upcoming pop-ups, seasonal drives, and ways to get involved. No spam, ever.</p>
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+        <input type="email" placeholder="your@email.com" required />
+        <button type="submit" class="btn btn-accent" style="white-space:nowrap;padding:0.72rem 1.3rem;">Sign Up</button>
+      </form>
+      <p class="newsletter-note">Join our community &mdash; unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>Ready to make a difference?</h2>
+    <p>Whether you donate, volunteer, or connect a teen to our programs &mdash; there&rsquo;s a place for you at Teen Closet Project.</p>
+    <div class="cta-btns">
+      <button class="btn btn-white"       onclick="go('donate')">Donate Today</button>
+      <button class="btn btn-ghost-white" onclick="go('involved')">Get Involved</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-full">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <svg height="50" viewBox="120 30 440 300" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:1rem;">
+            <rect x="120" y="30" width="440" height="300" rx="18" fill="rgba(255,255,255,0.04)"/>
+            <path d="M340 90 Q340 77 350 73 Q362 69 365 79 Q367 85 360 88" fill="none" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M340 100 L268 158 Q258 165 265 172 L415 172 Q422 165 412 158 Z" fill="none" stroke="#D85A30" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="263" y="169" width="154" height="5" rx="2.5" fill="#D85A30"/>
+            <path d="M340 148 C340 148 327 137 320 144 C313 151 316 160 324 165 L340 179 L356 165 C364 160 367 151 360 144 C353 137 340 148 340 148 Z" fill="#F0997B"/>
+            <line x1="180" y1="210" x2="500" y2="210" stroke="#F0997B" stroke-width="0.75" opacity="0.3"/>
+            <text x="340" y="258" text-anchor="middle" fill="rgba(255,255,255,0.82)" font-family="Georgia,'Times New Roman',serif" font-size="40px" font-style="italic">The Teen Closet Project</text>
+            <rect x="120" y="30" width="440" height="300" rx="18" fill="none" stroke="#F0997B" stroke-width="1.2" opacity="0.18"/>
+          </svg>
+          <p class="f-mission">Providing seasonal clothing and safe social spaces to migrant and marginalized teens across New York City. Founded by Hunter Pilaro &amp; Sol Molloy-Chimilio.</p>
+          <div class="f-socials">
+            <div class="f-social" title="Instagram">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </div>
+            <div class="f-social" title="TikTok">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
+            </div>
+            <div class="f-social" title="Twitter/X">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </div>
+            <div class="f-social" title="LinkedIn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="f-col">
+          <h5>Navigate</h5>
+          <ul>
+            <li onclick="go('home')">Home</li>
+            <li onclick="go('about')">About Us</li>
+            <li onclick="go('programs')">Programs</li>
+            <li onclick="go('involved')">Get Involved</li>
+            <li onclick="go('support')">Request Support</li>
+            <li onclick="go('resources')">Resources</li>
+            <li onclick="go('faq')">FAQ</li>
+            <li onclick="go('contact')">Contact</li>
+            <li onclick="go('donate')">Donate</li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h5>Programs</h5>
+          <ul>
+            <li onclick="go('programs')">Clothing Bundles</li>
+            <li onclick="go('programs')">Seasonal Drives</li>
+            <li onclick="go('programs')">Community Pop-Ups</li>
+            <li onclick="go('programs')">Mentorship</li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h5>Contact</h5>
+          <ul>
+            <li>info@teenclosetproject.org</li>
+            <li>New York City, NY</li>
+            <li onclick="go('involved')">Partner With Us</li>
+            <li onclick="go('involved')">Volunteer</li>
+          </ul>
+        </div>
+      </div>
+      <div class="f-bottom">
+        <p>&copy; 2026 Teen Closet Project. All rights reserved. &mdash; NYC 501(c)(3) Nonprofit</p>
+        <p>Built with purpose in New York City &mdash; <a href="#">Privacy Policy</a></p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  ABOUT PAGE                     -->
+<!-- ════════════════════════════════ -->
+<div id="pg-about" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow" style="color:var(--accent)">About Us</span>
+      <h1>Built by youth,<br>for youth.</h1>
+      <p>Founded by Hunter Pilaro and Sol Molloy-Chimilio, Teen Closet Project exists to ensure that vulnerable teens in New York City have the clothing they need &mdash; and the community support to thrive.</p>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="about-story">
+    <span class="eyebrow">Our Story</span>
+    <h2>Why Teen Closet Project exists.</h2>
+    <p>Over 11 million immigrants came to the United States between 2020 and 2025, with more than 3 million arriving in 2023 alone &mdash; the largest annual total ever recorded. A significant number of those families came to New York City, drawn by its status as the largest sanctuary city in the United States, which offers protections and support regardless of immigration status.</p>
+    <p>Organizations like New York Disaster Interfaith Services (NYDIS) do critical work providing shelter and emergency support for newly arrived families. But while housing and emergency needs are being addressed, a significant gap remains: access to basic seasonal clothing for teens spending time in shelters or navigating life in a new city.</p>
+    <div class="pull-quote">
+      <p>&ldquo;While many organizations focus on shelter and emergency needs, there is almost no one focused on making sure these teens have warm clothes for the winter. That&rsquo;s the gap we&rsquo;re here to fill.&rdquo;</p>
+    </div>
+    <p>The Teen Closet Project was founded to address exactly that. We provide seasonal clothing to migrant and marginalized teens in New York City, making sure that while they&rsquo;re navigating life in shelters or new communities, they have warm, clean clothes and feel genuinely cared for.</p>
+    <p>Beyond clothing, we aim to create safe social spaces where teens can connect with peers and access community resources &mdash; helping young people feel supported, included, and empowered during what is often a very challenging transition.</p>
+  </section>
+
+  <!-- Values -->
+  <section class="section-pad values-bg">
+    <div class="values-inner container">
+      <span class="eyebrow">What We Stand For</span>
+      <h2>Our goals.</h2>
+      <div class="values-grid">
+        <div class="val-card">
+          <div class="val-num">01</div>
+          <h3>Seasonal Clothing</h3>
+          <p>We ensure migrant and marginalized teens have warm, clean clothes during New York City&rsquo;s harsh fall and winter months &mdash; a basic need that too often goes unmet.</p>
+        </div>
+        <div class="val-card">
+          <div class="val-num">02</div>
+          <h3>Safe Social Spaces</h3>
+          <p>Beyond clothing, we create spaces where teens can connect with peers, access community resources, and feel genuinely supported during a challenging transition.</p>
+        </div>
+        <div class="val-card">
+          <div class="val-num">03</div>
+          <h3>A True Sanctuary City</h3>
+          <p>We believe New York must live up to its identity as a sanctuary city &mdash; and that means ensuring vulnerable teens have what they need to stay warm, safe, and included.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section-pad">
+    <div class="team-inner container">
+      <span class="eyebrow">The Founders</span>
+      <h2>The youth behind the mission.</h2>
+      <div class="team-grid" style="grid-template-columns: repeat(2,1fr); max-width:600px; margin: 3rem auto 0;">
+        <div class="team-card">
+          <div class="team-avatar">&#128104;</div>
+          <h4>Hunter Pilaro</h4>
+          <span>Co-Founder</span>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">&#128104;</div>
+          <h4>Sol Molloy-Chimilio</h4>
+          <span>Co-Founder</span>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:3rem;">
+        <button class="btn btn-primary" onclick="go('involved')">Join Our Team &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <h2>Be part of the story.</h2>
+    <p>Whether you volunteer, donate, or spread the word &mdash; you&rsquo;re helping build something real for NYC youth.</p>
+    <div class="cta-btns">
+      <button class="btn btn-white"       onclick="go('involved')">Get Involved</button>
+      <button class="btn btn-ghost-white" onclick="go('donate')">Donate</button>
+    </div>
+  </section>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC 501(c)(3) Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  PROGRAMS PAGE                  -->
+<!-- ════════════════════════════════ -->
+<div id="pg-programs" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow" style="color:var(--accent)">Our Programs</span>
+      <h1>Four ways we<br>show up for you.</h1>
+      <p>Every program we run is designed to meet teens where they are &mdash; with real resources, real community, and real care.</p>
+    </div>
+  </section>
+
+  <div class="prog-rows" style="padding-top:2rem; padding-bottom:2rem;">
+
+    <div class="prog-row">
+      <div class="prog-visual">&#128218;</div>
+      <div class="prog-text">
+        <span class="eyebrow">Program 01</span>
+        <h2>Clothing Bundles</h2>
+        <p>Our flagship program delivers curated, size-appropriate clothing bundles directly to teens in need across all five boroughs. Each bundle is thoughtfully assembled to include school-ready essentials, everyday wear, and seasonal items.</p>
+        <p>We work with schools, shelters, community centers, and partner organizations to identify teens who need support and get bundles to them quickly, privately, and with care.</p>
+        <div class="prog-includes">
+          <h4>Each bundle includes</h4>
+          <ul>
+            <li>3&ndash;5 tops (school-ready and casual)</li>
+            <li>2&ndash;3 bottoms (pants, jeans, or skirts)</li>
+            <li>Outerwear (seasonal, where available)</li>
+            <li>Socks, undergarments, and hygiene essentials</li>
+            <li>Shoes (when available in-stock)</li>
+          </ul>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <button class="btn btn-primary" onclick="go('support')">Request a Bundle &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prog-row rev">
+      <div class="prog-visual">&#127808;</div>
+      <div class="prog-text">
+        <span class="eyebrow">Program 02</span>
+        <h2>Seasonal Drives</h2>
+        <p>Three times a year &mdash; back-to-school in September, winter in November, and summer in June &mdash; we run citywide collection drives to source high-quality clothing donations.</p>
+        <p>Drives are powered by schools, businesses, faith communities, and individual donors. All donations are sorted, cleaned, and matched to teens by size and need.</p>
+        <div class="prog-includes">
+          <h4>Upcoming drives</h4>
+          <ul>
+            <li>Back-to-School Drive &mdash; August&ndash;September 2026</li>
+            <li>Winter Warmth Drive &mdash; October&ndash;November 2026</li>
+            <li>Summer Fresh Drive &mdash; May&ndash;June 2026</li>
+          </ul>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <button class="btn btn-primary" onclick="go('involved')">Donate Clothing &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prog-row">
+      <div class="prog-visual">&#127963;</div>
+      <div class="prog-text">
+        <span class="eyebrow">Program 03</span>
+        <h2>Community Pop-Ups</h2>
+        <p>Our pop-up events are free, in-person gatherings across NYC where teens can shop for free, connect with peers, access resource tables, and simply feel welcomed and celebrated.</p>
+        <p>Pop-ups rotate monthly through neighborhoods from the South Bronx to East New York to Jackson Heights &mdash; no applications, no judgment, just good people and great finds.</p>
+        <div class="prog-includes">
+          <h4>What to expect</h4>
+          <ul>
+            <li>Free clothing selection &mdash; you choose what you actually like</li>
+            <li>Resource tables: jobs, scholarships, mental health</li>
+            <li>Food and refreshments</li>
+            <li>Community partners and mentors on site</li>
+            <li>A welcoming, pressure-free environment</li>
+          </ul>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <button class="btn btn-primary" onclick="go('involved')">Volunteer at a Pop-Up &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="prog-row rev">
+      <div class="prog-visual">&#128161;</div>
+      <div class="prog-text">
+        <span class="eyebrow">Program 04</span>
+        <h2>Mentorship &amp; Resources</h2>
+        <p>Beyond clothing, we connect teens to a broader network of opportunity. Our mentorship program pairs immigrant and underserved youth with mentors who share their background and can help navigate school, careers, and life in New York City.</p>
+        <p>We also distribute multilingual resource guides covering ESL programs, college prep, mental health support, job training, and legal resources for immigrant youth and families.</p>
+        <div class="prog-includes">
+          <h4>Resources we connect teens to</h4>
+          <ul>
+            <li>College access and scholarship programs</li>
+            <li>Internship and job opportunities</li>
+            <li>ESL and tutoring services</li>
+            <li>Mental health and counseling referrals</li>
+            <li>Legal resources for immigrant youth and families</li>
+          </ul>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <button class="btn btn-primary" onclick="go('support')">Access Resources &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="cta-banner">
+    <h2>Know a teen who needs support?</h2>
+    <p>Our Request Support form is simple, confidential, and the first step to getting a teen the resources they need.</p>
+    <div class="cta-btns">
+      <button class="btn btn-white"       onclick="go('support')">Request Support</button>
+      <button class="btn btn-ghost-white" onclick="go('donate')">Support Our Work</button>
+    </div>
+  </section>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC 501(c)(3) Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  GET INVOLVED PAGE              -->
+<!-- ════════════════════════════════ -->
+<div id="pg-involved" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow" style="color:var(--accent)">Get Involved</span>
+      <h1>Your time,<br>your impact.</h1>
+      <p>There are many ways to show up for NYC youth. Whatever your skills or bandwidth, there&rsquo;s a place for you at Teen Closet Project.</p>
+    </div>
+  </section>
+
+  <!-- Three ways -->
+  <section class="section-pad">
+    <div class="container">
+      <span class="eyebrow">Three Ways to Help</span>
+      <h2>How you can make a difference.</h2>
+      <div class="inv-cards">
+        <div class="inv-card">
+          <div class="inv-card-top">
+            <div class="inv-card-n">01</div>
+            <div class="inv-card-icon">&#128139;</div>
+          </div>
+          <div class="inv-card-body">
+            <h3>Volunteer</h3>
+            <p>Join our crew of youth and adult volunteers who sort donations, staff pop-ups, deliver bundles, and help run the day-to-day work of the organization.</p>
+            <button class="btn btn-primary" onclick="document.getElementById('vol-form').scrollIntoView({behavior:'smooth'})">Sign Up to Volunteer</button>
+          </div>
+        </div>
+        <div class="inv-card">
+          <div class="inv-card-top">
+            <div class="inv-card-n">02</div>
+            <div class="inv-card-icon">&#128717;</div>
+          </div>
+          <div class="inv-card-body">
+            <h3>Donate Clothing</h3>
+            <p>Clean, gently used teen clothing is always needed. Drop off at our partner locations across the city, or contact us to arrange a pickup for large donations.</p>
+            <button class="btn btn-primary" onclick="document.getElementById('don-info').scrollIntoView({behavior:'smooth'})">See Donation Info</button>
+          </div>
+        </div>
+        <div class="inv-card">
+          <div class="inv-card-top">
+            <div class="inv-card-n">03</div>
+            <div class="inv-card-icon">&#129309;</div>
+          </div>
+          <div class="inv-card-body">
+            <h3>Partner With Us</h3>
+            <p>Schools, businesses, nonprofits, and faith communities can host drives, refer teens, co-host pop-ups, or provide in-kind support.</p>
+            <button class="btn btn-primary" onclick="document.getElementById('partner-section').scrollIntoView({behavior:'smooth'})">Explore Partnerships</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Volunteer Form -->
+  <section class="section-pad" style="background:var(--light);" id="vol-form">
+    <div class="container" style="text-align:center;max-width:560px;margin-bottom:0;">
+      <span class="eyebrow">Volunteer</span>
+      <h2>Join the TCP Crew.</h2>
+      <p style="color:var(--grey);margin-top:0.5rem;">Fill out the form and we&rsquo;ll be in touch within a few days.</p>
+    </div>
+    <div class="form-wrap" style="margin-top:2.5rem;">
+      <form onsubmit="submitForm(event,'vol-toast')">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Last name" required />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="you@email.com" required />
+          </div>
+          <div class="form-group">
+            <label>Phone (optional)</label>
+            <input type="tel" placeholder="(212) 000-0000" />
+          </div>
+          <div class="form-group full">
+            <label>How would you like to volunteer?</label>
+            <select>
+              <option value="">Select an area...</option>
+              <option>Pop-up events</option>
+              <option>Clothing sorting &amp; processing</option>
+              <option>Bundle delivery</option>
+              <option>Social media &amp; outreach</option>
+              <option>Mentorship</option>
+              <option>Administration &amp; planning</option>
+              <option>Open to anything</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Availability</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Weekdays</option>
+              <option>Weekends</option>
+              <option>Flexible / Both</option>
+              <option>Event-based only</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Anything else you&rsquo;d like us to know?</label>
+            <textarea placeholder="Skills, languages you speak, questions..."></textarea>
+          </div>
+          <div class="form-group full">
+            <button type="submit" class="btn btn-primary btn-submit">Submit Volunteer Application</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Clothing donation info -->
+  <section class="section-pad" id="don-info">
+    <div class="container">
+      <span class="eyebrow">Clothing Donations</span>
+      <h2>Where our clothing comes from.</h2>
+      <p style="color:var(--grey);margin-top:0.5rem;max-width:600px;">We source seasonal clothing through three main channels. Each plays a different role in keeping our supply consistent and high-quality.</p>
+      <div class="don-info-grid" style="margin-top:2rem; grid-template-columns: repeat(3,1fr);">
+        <div class="don-info-card">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">&#127979;</div>
+          <h3>School-Based Drives</h3>
+          <p style="font-size:0.9rem;color:var(--grey);margin-bottom:1.1rem;">High participation potential, strong community visibility, and easy volunteer recruitment. We work directly with school administrators to organize collection drives.</p>
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:0.4rem;">Want to host a drive?</div>
+          <p style="font-size:0.85rem;color:var(--grey);">Email <strong>donations@teenclosetproject.org</strong> to get started.</p>
+        </div>
+        <div class="don-info-card">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">&#128717;</div>
+          <h3>Thrift Stores</h3>
+          <p style="font-size:0.9rem;color:var(--grey);margin-bottom:1.1rem;">NYC&rsquo;s thrift stores are a consistent source of teen clothing across all five boroughs. We partner with local thrift shops willing to donate or discount inventory for our mission.</p>
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:0.4rem;">Know a thrift store?</div>
+          <p style="font-size:0.85rem;color:var(--grey);">Connect us at <strong>partnerships@teenclosetproject.org</strong></p>
+        </div>
+        <div class="don-info-card">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">&#9962;</div>
+          <h3>Faith Communities</h3>
+          <p style="font-size:0.9rem;color:var(--grey);margin-bottom:1.1rem;">Churches and faith organizations bring strong community networks, volunteer opportunities, and credibility. We partner with congregations across NYC to host seasonal donation drives.</p>
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:0.4rem;">Want to partner?</div>
+          <p style="font-size:0.85rem;color:var(--grey);">Reach out at <strong>partnerships@teenclosetproject.org</strong></p>
+        </div>
+      </div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1.75rem 2rem;margin-top:1.5rem;">
+        <h4 style="margin-bottom:0.75rem;">What we accept</h4>
+        <ul class="accept-list">
+          <li><span class="yes">&#10003;</span> Clean, gently used seasonal clothing (teen sizes XS&ndash;XXL)</li>
+          <li><span class="yes">&#10003;</span> Coats, jackets, sweaters, and warm outerwear</li>
+          <li><span class="yes">&#10003;</span> New clothing and accessories</li>
+          <li><span class="yes">&#10003;</span> Shoes in teen sizes (5&ndash;13)</li>
+          <li><span class="no">&#10007;</span> Worn out, damaged, or heavily stained items</li>
+          <li><span class="no">&#10007;</span> Young children&rsquo;s clothing (under size XS teen)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partnerships -->
+  <section class="section-pad" style="background:var(--light);" id="partner-section">
+    <div class="container">
+      <span class="eyebrow">Partnerships</span>
+      <h2>Let&rsquo;s build something together.</h2>
+      <p style="color:var(--grey);margin-top:0.5rem;max-width:480px;">We partner with organizations that share our commitment to NYC youth.</p>
+      <div class="partner-grid" style="margin-top:0;">
+        <div class="partner-card">
+          <h3>Schools &amp; Universities</h3>
+          <p>Host drives, connect students to resources, or collaborate on service-learning projects. We work with public schools, charter schools, and universities across NYC.</p>
+          <button class="btn btn-outline">Become a School Partner</button>
+        </div>
+        <div class="partner-card">
+          <h3>Businesses &amp; Brands</h3>
+          <p>Support TCP through clothing donations, financial sponsorships, employee volunteer days, or co-branded campaigns. All partners receive recognition and impact reports.</p>
+          <button class="btn btn-outline">Corporate Partnership</button>
+        </div>
+        <div class="partner-card">
+          <h3>Nonprofits &amp; Social Services</h3>
+          <p>If your organization serves immigrant teens or underserved youth, let&rsquo;s connect. We can provide clothing support for your clients and co-host community events.</p>
+          <button class="btn btn-outline">Nonprofit Referral Program</button>
+        </div>
+        <div class="partner-card">
+          <h3>Faith &amp; Community Organizations</h3>
+          <p>Faith communities have been some of our strongest partners. Host a collection drive, provide space for a pop-up, or mobilize your community to volunteer.</p>
+          <button class="btn btn-outline">Community Partner Inquiry</button>
+        </div>
+      </div>
+      <p style="text-align:center;color:var(--grey);font-size:0.88rem;margin-top:2.5rem;">For partnership inquiries: <strong>partnerships@teenclosetproject.org</strong></p>
+    </div>
+  </section>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC 501(c)(3) Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  REQUEST SUPPORT PAGE           -->
+<!-- ════════════════════════════════ -->
+<div id="pg-support" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner support-hero-center" style="margin:0 auto;text-align:center;">
+      <span class="eyebrow" style="color:var(--accent)">Request Support</span>
+      <h1>You deserve<br>to feel your best.</h1>
+      <p>Fill out the form below to request a clothing bundle or connect with our programs. All information is kept strictly private and confidential.</p>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="privacy-box">
+      <strong>&#128274; Your privacy matters.</strong> All information submitted here is kept strictly confidential and will never be shared with schools, government agencies, or any third parties. This form is used only to match you with the resources you need.
+    </div>
+    <div class="form-wrap">
+      <form onsubmit="submitForm(event,'sup-toast')">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name (optional)</label>
+            <input type="text" placeholder="Last name" />
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <select required>
+              <option value="">Select age...</option>
+              <option>13</option><option>14</option><option>15</option>
+              <option>16</option><option>17</option><option>18</option>
+              <option>19</option><option>20</option><option>21+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Borough</label>
+            <select required>
+              <option value="">Select borough...</option>
+              <option>Brooklyn</option>
+              <option>The Bronx</option>
+              <option>Queens</option>
+              <option>Manhattan</option>
+              <option>Staten Island</option>
+              <option>Outside NYC</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Best Way to Reach You</label>
+            <select required>
+              <option value="">Select...</option>
+              <option>Email</option>
+              <option>Phone / Text</option>
+              <option>WhatsApp</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Contact Info</label>
+            <input type="text" placeholder="Email or phone number" required />
+          </div>
+          <div class="form-group">
+            <label>Clothing Size &mdash; Top</label>
+            <select required>
+              <option value="">Select...</option>
+              <option>XS (0&ndash;2)</option><option>S (4&ndash;6)</option>
+              <option>M (8&ndash;10)</option><option>L (12&ndash;14)</option>
+              <option>XL (16&ndash;18)</option><option>XXL (20+)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Pants Size (waist)</label>
+            <input type="text" placeholder='e.g. 30"' />
+          </div>
+          <div class="form-group full">
+            <label>Shoe Size</label>
+            <input type="text" placeholder="e.g. 9 or 10W" />
+          </div>
+          <div class="form-group full">
+            <label>Items Needed Most (check all that apply)</label>
+            <div class="check-group">
+              <label><input type="checkbox" /> Tops / Shirts</label>
+              <label><input type="checkbox" /> Pants / Jeans</label>
+              <label><input type="checkbox" /> Winter Coat</label>
+              <label><input type="checkbox" /> Shoes</label>
+              <label><input type="checkbox" /> Undergarments</label>
+              <label><input type="checkbox" /> Socks</label>
+              <label><input type="checkbox" /> Hygiene Items</label>
+              <label><input type="checkbox" /> School Supplies</label>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label>How did you hear about us?</label>
+            <select>
+              <option value="">Select...</option>
+              <option>School or teacher</option>
+              <option>Friend or family</option>
+              <option>Social media</option>
+              <option>Community organization or shelter</option>
+              <option>Flyer or poster</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Anything else you&rsquo;d like us to know? (optional)</label>
+            <textarea placeholder="Specific needs, languages spoken, questions..."></textarea>
+          </div>
+          <div class="form-group full">
+            <button type="submit" class="btn btn-accent btn-submit">Submit My Request</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="privacy-box-success">
+      <strong>What happens next?</strong> After you submit, a team member will reach out within 3&ndash;5 business days to confirm your request and coordinate how you&rsquo;ll receive your bundle or access a pop-up event. For urgent needs, email <strong>support@teenclosetproject.org</strong>
+    </div>
+  </section>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC 501(c)(3) Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  DONATE PAGE                    -->
+<!-- ════════════════════════════════ -->
+<div id="pg-donate" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow" style="color:var(--accent)">Donate</span>
+      <h1>Every dollar<br>dresses a dream.</h1>
+      <p>Your contribution directly funds clothing bundles, community pop-ups, and mentorship resources for immigrant and underserved teens across NYC.</p>
+    </div>
+  </section>
+
+  <!-- Donate layout -->
+  <section class="section-pad">
+    <div class="donate-layout container">
+
+      <div class="donate-info">
+        <span class="eyebrow">Your Impact</span>
+        <h2>Here&rsquo;s what your gift does.</h2>
+        <ul class="impact-list">
+          <li class="impact-row">
+            <span class="impact-amt">$15</span>
+            <p>Covers a complete hygiene kit for one teen &mdash; shampoo, deodorant, toothbrush, and more.</p>
+          </li>
+          <li class="impact-row">
+            <span class="impact-amt">$30</span>
+            <p>Funds a pair of school-appropriate shoes for a teen who needs them.</p>
+          </li>
+          <li class="impact-row">
+            <span class="impact-amt">$60</span>
+            <p>Assembles a full clothing bundle: tops, bottoms, and seasonal outerwear for one teen.</p>
+          </li>
+          <li class="impact-row">
+            <span class="impact-amt">$100</span>
+            <p>Covers supplies and logistics to support one teen at a community pop-up event.</p>
+          </li>
+          <li class="impact-row">
+            <span class="impact-amt">$250</span>
+            <p>Helps host an entire neighborhood pop-up, serving 20&ndash;30 teens in a single day.</p>
+          </li>
+          <li class="impact-row">
+            <span class="impact-amt">$500+</span>
+            <p>Sponsors a full seasonal drive &mdash; collection, sorting, and distribution for one month.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="donate-card">
+        <h3>Make a Donation</h3>
+        <div class="amt-grid">
+          <button class="amt-btn sel" onclick="pickAmt(this,'15')">$15</button>
+          <button class="amt-btn"     onclick="pickAmt(this,'30')">$30</button>
+          <button class="amt-btn"     onclick="pickAmt(this,'60')">$60</button>
+          <button class="amt-btn"     onclick="pickAmt(this,'100')">$100</button>
+          <button class="amt-btn"     onclick="pickAmt(this,'250')">$250</button>
+          <button class="amt-btn"     onclick="pickAmt(this,'')">Other</button>
+        </div>
+        <div class="or-divider">or enter a custom amount</div>
+        <div class="form-group">
+          <label>Custom Amount ($)</label>
+          <input type="number" id="custom-amt" placeholder="Enter amount..." min="1" />
+        </div>
+        <div class="form-group">
+          <label>Frequency</label>
+          <select>
+            <option>One-time</option>
+            <option>Monthly</option>
+            <option>Quarterly</option>
+            <option>Annually</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="you@email.com" />
+        </div>
+        <button class="btn btn-accent" style="width:100%;justify-content:center;margin-top:0.75rem;padding:0.9rem;" onclick="showToast('don-toast')">
+          Donate Securely &rarr;
+        </button>
+        <p class="donate-note">Teen Closet Project is a 501(c)(3) nonprofit. Donations are tax-deductible. Secure processing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Allocation bars -->
+  <section class="section-pad alloc-bg">
+    <div class="alloc-inner container">
+      <span class="eyebrow">Transparency</span>
+      <h2>Where your money goes.</h2>
+      <p>We&rsquo;re committed to full transparency. Here&rsquo;s how every dollar you give supports migrant and marginalized teens across NYC.</p>
+      <div class="alloc-bars">
+        <div class="alloc-row">
+          <div class="alloc-labels"><span>Clothing &amp; Bundles</span><span>60% of funds</span></div>
+          <div class="alloc-track"><div class="alloc-fill c" style="width:60%"></div></div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-labels"><span>Pop-Up Events &amp; Programs</span><span>20% of funds</span></div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:20%"></div></div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-labels"><span>Operations &amp; Logistics</span><span>12% of funds</span></div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:12%"></div></div>
+        </div>
+        <div class="alloc-row">
+          <div class="alloc-labels"><span>Outreach &amp; Communications</span><span>8% of funds</span></div>
+          <div class="alloc-track"><div class="alloc-fill" style="width:8%"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <h2>Can&rsquo;t donate right now?</h2>
+    <p>There are so many ways to support Teen Closet Project. Donate clothing, volunteer your time, or simply share our story with someone who can help.</p>
+    <div class="cta-btns">
+      <button class="btn btn-white"       onclick="go('involved')">Get Involved</button>
+      <button class="btn btn-ghost-white">Share Our Story</button>
+    </div>
+  </section>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC 501(c)(3) Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  FAQ PAGE                       -->
+<!-- ════════════════════════════════ -->
+<div id="pg-faq" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow" style="color:var(--accent)">FAQ</span>
+      <h1>Your questions,<br>answered.</h1>
+      <p>Everything you need to know about how Teen Closet Project works &mdash; for teens, families, donors, and volunteers.</p>
+    </div>
+  </section>
+
+  <div class="faq-inner">
+
+    <div class="faq-group">
+      <div class="faq-group-label">For Teens &amp; Families</div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Who is eligible to receive clothing from Teen Closet Project?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">We serve migrant and marginalized teens in New York City, including newly arrived immigrant youth and teens living in shelters or transitional housing. There are no documentation requirements &mdash; we don&rsquo;t ask about immigration status. If you&rsquo;re a teen in need of clothing support in NYC, we want to help.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is my information kept private?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes, completely. All information submitted through our Request Support form is kept strictly confidential. We will never share your information with schools, government agencies, immigration authorities, or any third parties. Your safety is our priority.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How do I request a clothing bundle?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Fill out our Request Support form on this website. Once submitted, a member of our team will reach out within 3&ndash;5 business days to confirm your request and arrange how you&rsquo;ll receive your bundle or access one of our pop-up events. For urgent needs, email support@teenclosetproject.org.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What does a clothing bundle include?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Each bundle is tailored to your size and the current season. Typically a bundle includes 3&ndash;5 tops, 2&ndash;3 bottoms (jeans, pants, or skirts), seasonal outerwear like a coat or jacket, socks, and hygiene essentials. Shoes are included when available in your size.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do I need to pay for anything?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">No. Clothing bundles and everything we offer at our community pop-up events are completely free. There is no cost to teens or families at any point.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Do you offer support in languages other than English?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes. We have multilingual volunteers at our pop-up events and can provide support in Spanish and other languages. When you fill out the Request Support form, you can note your preferred language and we&rsquo;ll do our best to connect you with someone who speaks it.</div>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <div class="faq-group-label">For Donors &amp; Supporters</div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is Teen Closet Project a registered nonprofit?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Teen Closet Project is a youth-led nonprofit organization based in New York City. We are in the process of obtaining our 501(c)(3) status. Please contact us at info@teenclosetproject.org for the most current information on our registration status and for documentation needed for tax purposes.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How are monetary donations used?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">60% of funds go directly toward clothing and bundles for teens. 20% supports community pop-up events and programs. 12% covers operations and logistics. 8% goes toward outreach and communications. You can see a full breakdown on our Donate page.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What clothing items are most needed?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Our highest-priority items are warm outerwear (coats, jackets, hoodies) for fall and winter, as well as everyday tops, jeans, and shoes in teen sizes. We also always need socks and hygiene products. Please make sure donated items are clean and in good condition.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I donate clothing on behalf of a group or business?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Absolutely &mdash; we encourage it! Schools, businesses, faith organizations, and community groups are some of our most important partners. For large donations or to organize a drive, email donations@teenclosetproject.org and we&rsquo;ll coordinate logistics, including pickup if needed.</div>
+      </div>
+    </div>
+
+    <div class="faq-group">
+      <div class="faq-group-label">For Volunteers &amp; Partners</div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How do I sign up to volunteer?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Fill out the volunteer form on our Get Involved page. We&rsquo;ll be in touch within a few days. Volunteers help at pop-up events, sort clothing donations, assist with delivery, and support outreach. No experience needed &mdash; just enthusiasm and a commitment to showing up.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can my school or organization refer teens to your programs?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">Yes, and we encourage it. Teachers, school counselors, shelter staff, and social workers can refer teens directly to us. Email support@teenclosetproject.org with the teen&rsquo;s basic needs and we will handle everything with care and confidentiality.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How can my school host a clothing drive?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-a">School drives are one of our most effective ways to source clothing. We&rsquo;ll provide promotional materials, collection boxes, and guidance throughout the process. Reach out at donations@teenclosetproject.org to get started &mdash; we can usually set up a drive within 2&ndash;3 weeks.</div>
+      </div>
+    </div>
+
+    <div style="background:var(--accent-light);border:1px solid var(--border);border-radius:14px;padding:1.75rem 2rem;text-align:center;">
+      <p style="font-size:0.95rem;color:var(--grey);">Still have a question? We&rsquo;d love to hear from you.</p>
+      <button class="btn btn-accent" style="margin-top:1rem;" onclick="go('contact')">Contact Us</button>
+    </div>
+
+  </div>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  RESOURCES PAGE                 -->
+<!-- ════════════════════════════════ -->
+<div id="pg-resources" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow" style="color:var(--accent)">Resources</span>
+      <h1>Tools &amp; support<br>for NYC teens.</h1>
+      <p>A curated list of free resources for immigrant and underserved youth in New York City &mdash; from legal aid to mental health, ESL to college prep.</p>
+    </div>
+  </section>
+
+  <div class="resources-inner">
+
+    <div style="margin-bottom:1rem;">
+      <span class="eyebrow">Emergency &amp; Housing</span>
+      <h2>Shelter &amp; immediate support.</h2>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <div class="resource-card-tag">Shelter</div>
+        <h4>NYC Asylum Seeker Services</h4>
+        <p>NYC provides emergency shelter and support services for asylum seekers regardless of immigration status. Call 311 or visit the Office of Asylum Seeker Operations.</p>
+        <a href="https://www.nyc.gov/site/hra/help/asylum-seeker-resources.page" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">Disaster &amp; Crisis</div>
+        <h4>NY Disaster Interfaith Services (NYDIS)</h4>
+        <p>Provides shelter, disaster preparedness, and coordinated resource support for newly arrived immigrant families and teens across NYC.</p>
+        <a href="https://www.nydis.org" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">Food</div>
+        <h4>NYC Free Meals Program</h4>
+        <p>NYC offers free meals at hundreds of community sites across the city. No documentation or ID required to access food assistance.</p>
+        <a href="https://www.nyc.gov/site/dycd/services/food.page" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+    </div>
+
+    <div style="margin-top:4rem;margin-bottom:1rem;">
+      <span class="eyebrow">Legal &amp; Immigration</span>
+      <h2>Know your rights.</h2>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <div class="resource-card-tag">Legal Aid</div>
+        <h4>Legal Aid Society NYC</h4>
+        <p>Free civil legal services for low-income New Yorkers, including immigration cases, housing, and family law. Serves all five boroughs.</p>
+        <a href="https://legalaidnyc.org" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">Immigration</div>
+        <h4>ActionNYC</h4>
+        <p>Free, safe immigration legal help from city-funded providers. Available in many languages. Helps with DACA, asylum, and other immigration matters.</p>
+        <a href="https://www.nyc.gov/site/immigrants/help/legal-assistance/actionnyc.page" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">Know Your Rights</div>
+        <h4>NYIC Know Your Rights</h4>
+        <p>The New York Immigration Coalition offers guides, workshops, and resources to help immigrant families understand their legal rights in NYC.</p>
+        <a href="https://www.nyic.org" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+    </div>
+
+    <div style="margin-top:4rem;margin-bottom:1rem;">
+      <span class="eyebrow">Education &amp; Language</span>
+      <h2>Learn, grow, succeed.</h2>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <div class="resource-card-tag">ESL</div>
+        <h4>NYC Free English Classes</h4>
+        <p>The NYC Adult Literacy Program offers free English language classes at sites across all five boroughs, including evening and weekend options.</p>
+        <a href="https://www.nyc.gov/site/adulted/learners/esol-classes.page" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">College Prep</div>
+        <h4>Immigrant Youth College Access</h4>
+        <p>Resources for undocumented and immigrant students navigating college applications, financial aid, and CUNY admissions in New York.</p>
+        <a href="https://www.cuny.edu/admissions/undergraduate/dreamers/" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">Tutoring</div>
+        <h4>NYC School-Based Tutoring</h4>
+        <p>NYC public schools offer free after-school tutoring and academic support programs. Contact your school&rsquo;s guidance counselor to enroll.</p>
+        <a href="https://www.schools.nyc.gov" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+    </div>
+
+    <div style="margin-top:4rem;margin-bottom:1rem;">
+      <span class="eyebrow">Mental Health</span>
+      <h2>You don&rsquo;t have to go through it alone.</h2>
+    </div>
+    <div class="resources-grid">
+      <div class="resource-card">
+        <div class="resource-card-tag">Crisis Support</div>
+        <h4>988 Suicide &amp; Crisis Lifeline</h4>
+        <p>Call or text 988 anytime for free, confidential mental health crisis support. Available 24/7 in English and Spanish.</p>
+        <a href="https://988lifeline.org" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">Counseling</div>
+        <h4>NYC Well</h4>
+        <p>Free, confidential mental health support for New Yorkers. Call, text, or chat 24/7. Available in 200+ languages. No insurance needed.</p>
+        <a href="https://nycwell.cityofnewyork.us" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card-tag">Youth Support</div>
+        <h4>Safe Horizon</h4>
+        <p>Provides support services for young people who have experienced trauma, violence, or crisis &mdash; including immigrant and refugee youth.</p>
+        <a href="https://www.safehorizon.org" target="_blank" class="resource-link">Visit site &rarr;</a>
+      </div>
+    </div>
+
+    <div style="background:var(--accent-light);border:1px solid var(--border);border-radius:14px;padding:1.75rem 2rem;margin-top:4rem;text-align:center;">
+      <h3 style="margin-bottom:0.5rem;">Know a resource we should add?</h3>
+      <p style="color:var(--grey);font-size:0.9rem;margin-bottom:1.1rem;">We&rsquo;re always looking to grow this list. If you know of a service that helps immigrant or underserved teens in NYC, let us know.</p>
+      <button class="btn btn-accent" onclick="go('contact')">Suggest a Resource</button>
+    </div>
+
+  </div>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════ -->
+<!--  CONTACT PAGE                   -->
+<!-- ════════════════════════════════ -->
+<div id="pg-contact" class="page">
+
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <span class="eyebrow" style="color:var(--accent)">Contact</span>
+      <h1>Let&rsquo;s talk.</h1>
+      <p>Whether you have a question, want to partner, or just want to say hello &mdash; we&rsquo;d love to hear from you.</p>
+    </div>
+  </section>
+
+  <div class="contact-layout">
+    <div class="contact-info">
+      <h2>Get in touch.</h2>
+      <p>We&rsquo;re a small, youth-led team and we read every message. Use the form or reach us directly through any of the channels below.</p>
+
+      <div class="contact-method">
+        <div class="contact-method-icon">&#9993;</div>
+        <div class="contact-method-text">
+          <h4>General Inquiries</h4>
+          <p><a href="mailto:info@teenclosetproject.org">info@teenclosetproject.org</a></p>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">&#128717;</div>
+        <div class="contact-method-text">
+          <h4>Clothing Donations</h4>
+          <p><a href="mailto:donations@teenclosetproject.org">donations@teenclosetproject.org</a></p>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">&#129309;</div>
+        <div class="contact-method-text">
+          <h4>Partnerships</h4>
+          <p><a href="mailto:partnerships@teenclosetproject.org">partnerships@teenclosetproject.org</a></p>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">&#128274;</div>
+        <div class="contact-method-text">
+          <h4>Teen &amp; Family Support</h4>
+          <p><a href="mailto:support@teenclosetproject.org">support@teenclosetproject.org</a></p>
+        </div>
+      </div>
+      <div class="contact-method">
+        <div class="contact-method-icon">&#128205;</div>
+        <div class="contact-method-text">
+          <h4>Location</h4>
+          <p>New York City, NY</p>
+        </div>
+      </div>
+
+      <div class="contact-socials">
+        <div class="contact-social" title="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </div>
+        <div class="contact-social" title="TikTok">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/></svg>
+        </div>
+        <div class="contact-social" title="Twitter/X">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.259 5.631 5.905-5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-wrap" style="margin-top:0;">
+      <h3 style="margin-bottom:1.5rem;">Send us a message</h3>
+      <form onsubmit="submitForm(event,'contact-toast')">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="First name" required />
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Last name" />
+          </div>
+          <div class="form-group full">
+            <label>Email</label>
+            <input type="email" placeholder="you@email.com" required />
+          </div>
+          <div class="form-group full">
+            <label>I am a&hellip;</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Teen or family seeking support</option>
+              <option>Donor or supporter</option>
+              <option>Volunteer</option>
+              <option>School or organization</option>
+              <option>Business or brand</option>
+              <option>Press or media</option>
+              <option>Just saying hello</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Subject</label>
+            <input type="text" placeholder="What&rsquo;s this about?" required />
+          </div>
+          <div class="form-group full">
+            <label>Message</label>
+            <textarea placeholder="Tell us what&rsquo;s on your mind..." style="min-height:130px;" required></textarea>
+          </div>
+          <div class="form-group full">
+            <button type="submit" class="btn btn-accent btn-submit">Send Message</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="mini-footer">
+    <p>&copy; 2026 Teen Closet Project &mdash; NYC Nonprofit</p>
+    <p>info@teenclosetproject.org &mdash; <a href="#">Privacy Policy</a></p>
+  </div>
+</div>
+
+
+<!-- Toast notifications -->
+<div class="toast" id="vol-toast"><div class="toast-dot"></div> Application submitted! We&rsquo;ll be in touch soon.</div>
+<div class="toast" id="sup-toast"><div class="toast-dot"></div> Request received! We&rsquo;ll reach out within 3&ndash;5 business days.</div>
+<div class="toast" id="don-toast"><div class="toast-dot"></div> Thank you for your generous support!</div>
+<div class="toast" id="contact-toast"><div class="toast-dot"></div> Message sent! We&rsquo;ll get back to you soon.</div>
+<div class="toast" id="newsletter-toast"><div class="toast-dot"></div> You&rsquo;re on the list! We&rsquo;ll keep you posted.</div>
+
+
+<script>
+  // ── Page navigation ──────────────────────
+  const PAGES = ['home','about','programs','involved','support','resources','faq','contact','donate'];
+
+  function go(id) {
+    PAGES.forEach(p => {
+      document.getElementById('pg-' + p).classList.remove('active');
+      const btn = document.getElementById('nb-' + p);
+      if (btn) btn.classList.remove('active');
+    });
+    document.getElementById('pg-' + id).classList.add('active');
+    const nb = document.getElementById('nb-' + id);
+    if (nb) nb.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Mobile menu ──────────────────────────
+  function toggleMenu() {
+    document.getElementById('mob-nav').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mob-nav').classList.remove('open');
+  }
+
+  // ── Donation amount picker ───────────────
+  function pickAmt(btn, val) {
+    document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    document.getElementById('custom-amt').value = val;
+  }
+
+  // ── Form submission ──────────────────────
+  function submitForm(e, toastId) {
+    e.preventDefault();
+    showToast(toastId);
+    e.target.reset();
+  }
+
+  // ── Toast helper ─────────────────────────
+  function showToast(id) {
+    const t = document.getElementById(id);
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  // ── FAQ accordion ────────────────────────
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    // Open this one if it was closed
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Newsletter ────────────────────────────
+  function handleNewsletter(e) {
+    e.preventDefault();
+    showToast('newsletter-toast');
+    e.target.reset();
+  }
+
+  // ── Scroll-reveal animations ─────────────
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll(
+    '.prog-card, .val-card, .team-card, .inv-card, .stat, .impact-row, .partner-card'
+  ).forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(18px)';
+    el.style.transition = `opacity 0.5s ${i * 0.06}s ease, transform 0.5s ${i * 0.06}s ease`;
+    revealObserver.observe(el);
+  });
+</script>
+</body>
+</html>
